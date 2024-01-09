@@ -1,0 +1,73 @@
+<p>assignments works!</p>
+<p>Liste des devoirs :</p>
+
+<p>Avec la méthode Angular inférieure à version 17</p>
+<p *ngFor="let a of assignments">
+  Le devoir {{ a.nom }}, à rendre pour le {{ a.dateDeRendu }}, rendu :
+  {{ a.rendu }}
+</p>
+
+<p>Autre exemple avec une liste UL/LI</p>
+<ul>
+  <li *ngFor="let a of assignments">
+    Le devoir {{ a.nom }}, à rendre pour le {{ a.dateDeRendu }}, rendu :
+    {{ a.rendu }}
+  </li>
+</ul>
+
+<p>Autre exemple avec une table TR/TD</p>
+<table>
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Date de rendu</th>
+      <th>Rendu</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let a of assignments">
+      <td>{{ a.nom }}</td>
+      <td>{{ a.dateDeRendu }}</td>
+      <td>{{ a.rendu }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>Avec la syntaxe d'Angular 17</h2>
+@for(a of assignments; track a.nom) {
+<p>
+  Le devoir {{ a.nom }}, à rendre pour
+  le {{ a.dateDeRendu }}, rendu :
+  {{ a.rendu }}
+</p>
+}
+
+<p>Avec listes</p>
+<ul>
+  @for(a of assignments; track a.nom) {
+  <li>
+    Le devoir {{ a.nom }}, à rendre pour le {{ a.dateDeRendu }}, rendu :
+    {{ a.rendu }}
+  </li>
+  }
+</ul>
+
+<p>Avec tableau</p>
+<table>
+  <thead>
+    <tr>
+      <th>Nom</th>
+      <th>Date de rendu</th>
+      <th>Rendu</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for(a of assignments; track a.nom) {
+    <tr>
+      <td>{{ a.nom }}</td>
+      <td>{{ a.dateDeRendu }}</td>
+      <td>{{ a.rendu }}</td>
+    </tr>
+    }
+  </tbody>
+</table>
