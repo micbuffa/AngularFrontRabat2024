@@ -14,9 +14,3 @@ table, tr, td, thead, th {
   border:2px dashed yellow;
 }
 
-.form {
-  display:flex;
-  flex-direction: column;
-  margin:5px;
-}
-

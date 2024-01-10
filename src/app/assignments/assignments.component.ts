@@ -3,16 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RenduDirective } from '../shared/rendu.directive';
 import { NonRenduDirective } from '../shared/non-rendu.directive';
-import { FormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
 import { MatListModule } from "@angular/material/list";
-
+import { MatButtonModule } from '@angular/material/button';
 import { Assignment } from './assignment.model';
 import { AssignmentDetailComponent } from "./assignment-detail/assignment-detail.component";
+import { MatDividerModule } from '@angular/material/divider';
+
+import { AddAssignmentComponent } from './add-assignment/add-assignment.component';
 
 @Component({
     selector: 'app-assignments',
@@ -20,15 +17,14 @@ import { AssignmentDetailComponent } from "./assignment-detail/assignment-detail
     templateUrl: './assignments.component.html',
     styleUrl: './assignments.component.css',
     imports: [CommonModule, RenduDirective, NonRenduDirective,
-        FormsModule, MatInputModule, MatFormFieldModule, MatButtonModule,
-        MatListModule,
-        MatDatepickerModule, MatNativeDateModule, AssignmentDetailComponent]
+             AssignmentDetailComponent, MatListModule, MatDividerModule,
+             AddAssignmentComponent, MatButtonModule]
 })
 export class AssignmentsComponent implements OnInit {
   ajoutActive = false;
-  // Pour le formulaire d'ajout d'assignment
-  nomDevoir = "";
-  dateDeRendu!:string;
+  // Pour afficher ou pas le formulaire
+  formVisible = false;
+
   // Pour le click sur un assignment
   assignmentSelectionne!:Assignment;
 
@@ -63,23 +59,19 @@ export class AssignmentsComponent implements OnInit {
     else return "red"
   }
 
-  onSubmit(event:any) {
-
-    console.log("Formulaire soumis ! NOM =  " + this.nomDevoir);
-    console.log("Date : " + this.dateDeRendu);
-
-    let nouvelAssignment = {
-      nom: this.nomDevoir,
-      dateDeRendu: new Date(this.dateDeRendu),
-      rendu: false
-    };
-
-    // et on le rajoute au tableau des assignments
-    this.assignments.push(nouvelAssignment);
-  }
-
   assignmentClique(a:Assignment) {
     console.log("Assignment cliqué : " + a.nom);
     this.assignmentSelectionne = a;
+  }
+
+  onAddAssignmentBtnClick() {
+    this.formVisible = true;
+  }
+
+  onAddAssignmentClique(event:Assignment) {
+    console.log("Nouvel assignment reçu du fils!");
+
+    this.assignments.push(event);
+    this.formVisible = false;
   }
 }
