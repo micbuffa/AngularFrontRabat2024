@@ -7,7 +7,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { AssignmentsComponent } from './assignments/assignments.component';
 
-
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -17,6 +16,7 @@ import { AssignmentsComponent } from './assignments/assignments.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
+
 export class AppComponent {
   nomApplication = "Application de gestion des devoirs  "
   constructor() {
