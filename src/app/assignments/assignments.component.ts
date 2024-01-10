@@ -9,21 +9,28 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatListModule } from "@angular/material/list";
+
 import { Assignment } from './assignment.model';
+import { AssignmentDetailComponent } from "./assignment-detail/assignment-detail.component";
+
 @Component({
-  selector: 'app-assignments',
-  standalone: true,
-  imports: [CommonModule, RenduDirective, NonRenduDirective,
-    FormsModule, MatInputModule, MatFormFieldModule, MatButtonModule,
-    MatDatepickerModule, MatNativeDateModule],
-  templateUrl: './assignments.component.html',
-  styleUrl: './assignments.component.css'
+    selector: 'app-assignments',
+    standalone: true,
+    templateUrl: './assignments.component.html',
+    styleUrl: './assignments.component.css',
+    imports: [CommonModule, RenduDirective, NonRenduDirective,
+        FormsModule, MatInputModule, MatFormFieldModule, MatButtonModule,
+        MatListModule,
+        MatDatepickerModule, MatNativeDateModule, AssignmentDetailComponent]
 })
 export class AssignmentsComponent implements OnInit {
   ajoutActive = false;
   // Pour le formulaire d'ajout d'assignment
   nomDevoir = "";
   dateDeRendu!:string;
+  // Pour le click sur un assignment
+  assignmentSelectionne!:Assignment;
 
   assignments:Assignment[] = [
     {
@@ -69,5 +76,10 @@ export class AssignmentsComponent implements OnInit {
 
     // et on le rajoute au tableau des assignments
     this.assignments.push(nouvelAssignment);
+  }
+
+  assignmentClique(a:Assignment) {
+    console.log("Assignment cliqué : " + a.nom);
+    this.assignmentSelectionne = a;
   }
 }
