@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { Assignment } from './assignment.model';
 @Component({
   selector: 'app-assignments',
   standalone: true,
@@ -24,20 +25,20 @@ export class AssignmentsComponent implements OnInit {
   nomDevoir = "";
   dateDeRendu!:string;
 
-  assignments = [
+  assignments:Assignment[] = [
     {
       nom:"Devoir Angular de Mr Buffa",
-      dateDeRendu: "2024-02-17",
+      dateDeRendu: new Date("2024-02-17"),
       rendu: false
     },
     {
       nom:"Devoir J2EE de Mr Grin",
-      dateDeRendu: "2024-12-15",
+      dateDeRendu: new Date("2024-12-15"),
       rendu: true
     },
     {
       nom:"Devoir J2EE de Mr Winter, gestion de projet",
-      dateDeRendu: "2024-11-10",
+      dateDeRendu: new Date("2024-11-10"),
       rendu: true
     }
   ];
@@ -62,7 +63,7 @@ export class AssignmentsComponent implements OnInit {
 
     let nouvelAssignment = {
       nom: this.nomDevoir,
-      dateDeRendu: this.dateDeRendu,
+      dateDeRendu: new Date(this.dateDeRendu),
       rendu: false
     };
 
