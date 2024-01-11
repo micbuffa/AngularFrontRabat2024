@@ -77,6 +77,8 @@ export class AssignmentsComponent implements OnInit {
     // un élément du tableau à partir de son index et on supprime un seul
     // élément du tableau (premier paramètre = la position,
     // second = le nombre d'éléments à supprimer)
-    this.assignments.splice(pos, 1);
+    //this.assignments.splice(pos, 1);
+
+    this.assignmentService.deleteAssignment(event);
   }
 }

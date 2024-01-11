@@ -47,4 +47,12 @@ export class AssignmentsService {
 
     return of("Assignment modifié !");
   }
+
+  deleteAssignment(assignment:Assignment):Observable<string> {
+    // suppression dans le tableau
+    const index = this.assignments.indexOf(assignment, 0);
+    this.assignments.splice(index, 1);
+    
+    return of("Assignment supprimé !");
+  }
 }

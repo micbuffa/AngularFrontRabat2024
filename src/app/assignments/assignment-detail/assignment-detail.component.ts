@@ -5,6 +5,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { AssignmentsService } from '../../shared/assignments.service';
 @Component({
   selector: 'app-assignment-detail',
   standalone: true,
@@ -19,11 +20,23 @@ export class AssignmentDetailComponent {
   @Output()
   assignmentSupprime = new EventEmitter<Assignment>();
 
+  constructor(private assignmentService: AssignmentsService) {}
+
   onDeleteAssignment() {
     // On envoie un evenement au père (assignments.component.ts)
     this.assignmentSupprime.emit(this.assignmentTransmis);
     // Pour effacer de la page la mat-card avec le détail
     // de l'assignment
     this.assignmentTransmis = undefined;
+  }
+
+  onCheckboxCliqued() {
+    if(!this.assignmentTransmis) return;
+
+    this.assignmentTransmis.rendu = true;
+    this.assignmentService.updateAssignment(this.assignmentTransmis)
+      .subscribe(message => {
+        console.log(message);
+      });
   }
 }
