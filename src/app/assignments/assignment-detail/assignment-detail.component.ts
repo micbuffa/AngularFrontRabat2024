@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Assignment } from '../assignment.model';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -15,5 +15,15 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class AssignmentDetailComponent {
   @Input()
-  assignmentTransmis!:Assignment
+  assignmentTransmis?:Assignment;
+  @Output()
+  assignmentSupprime = new EventEmitter<Assignment>();
+
+  onDeleteAssignment() {
+    // On envoie un evenement au père (assignments.component.ts)
+    this.assignmentSupprime.emit(this.assignmentTransmis);
+    // Pour effacer de la page la mat-card avec le détail
+    // de l'assignment
+    this.assignmentTransmis = undefined;
+  }
 }

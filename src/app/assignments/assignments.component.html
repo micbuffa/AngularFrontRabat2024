@@ -32,7 +32,7 @@
     }
   </mat-list>
 
-  <app-assignment-detail
+  <app-assignment-detail (assignmentSupprime)="onAssignmentSupprime($event)"
     [assignmentTransmis]="assignmentSelectionne"
   ></app-assignment-detail>
 </main>

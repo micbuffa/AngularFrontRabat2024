@@ -74,4 +74,15 @@ export class AssignmentsComponent implements OnInit {
     this.assignments.push(event);
     this.formVisible = false;
   }
+
+  onAssignmentSupprime(event:Assignment) {
+    console.log("Reçu du fils: Assignment à supprimer : " + event.nom);
+    // Il faut trouver position de cet assignment dans le tableau
+    const pos = this.assignments.indexOf(event, 0);
+    // On utilise la méthode standard JavaScript splice pour supprimer
+    // un élément du tableau à partir de son index et on supprime un seul
+    // élément du tableau (premier paramètre = la position,
+    // second = le nombre d'éléments à supprimer)
+    this.assignments.splice(pos, 1);
+  }
 }

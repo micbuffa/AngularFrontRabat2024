@@ -1,20 +1,21 @@
 @if(assignmentTransmis) {
-<mat-card>
-  <mat-card-content>
-    <mat-card-title>
-      {{ assignmentTransmis.nom }}
-    </mat-card-title>
-    <mat-card-subtitle>
-      {{ assignmentTransmis.dateDeRendu | date : "MM/dd/YYYY" }}
-    </mat-card-subtitle>
-  </mat-card-content>
-  <mat-card-actions>
-    @if(!assignmentTransmis.rendu) {
-       <mat-checkbox (click)="assignmentTransmis.rendu = true;">Rendu</mat-checkbox>
-    }
-    <button mat-raised-button color="warn">
-      <mat-icon>delete</mat-icon>
-      DELETE</button>
-  </mat-card-actions>
-</mat-card>
+  <mat-card>
+    <mat-card-content>
+      <mat-card-title>
+        {{ assignmentTransmis.nom }}
+      </mat-card-title>
+      <mat-card-subtitle>
+        {{ assignmentTransmis.dateDeRendu | date : "MM/dd/YYYY" }}
+      </mat-card-subtitle>
+    </mat-card-content>
+    <mat-card-actions>
+      @if(!assignmentTransmis.rendu) {
+        <mat-checkbox (click)="assignmentTransmis.rendu = true;">Rendu</mat-checkbox>
+      }
+      <button mat-raised-button color="warn" (click)="onDeleteAssignment()">
+        <mat-icon>delete</mat-icon>
+        DELETE
+      </button>
+    </mat-card-actions>
+  </mat-card>
 }
