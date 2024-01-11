@@ -14,3 +14,11 @@ table, tr, td, thead, th {
   border:2px dashed yellow;
 }
 
+.container {
+  display:flex;
+  flex-direction: column;
+}
+
+.ajouterBtn {
+  align-self: flex-end;
+}

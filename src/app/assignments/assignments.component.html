@@ -1,32 +1,41 @@
-<button mat-flat-button color="accent"
-       (click)="onAddAssignmentBtnClick()"
->   Ajouter Assignment
-</button>
-
 @if(formVisible) {
-    <app-add-assignment (nouvelAssignmentAjoute)="onAddAssignmentClique($event)"></app-add-assignment>
+  <app-add-assignment
+    (nouvelAssignmentAjoute)="onAddAssignmentClique($event)"
+  ></app-add-assignment>
 } @else {
+<main class="container">
+  <button
+    mat-flat-button
+    color="accent"
+    class="ajouterBtn"
+    (click)="onAddAssignmentBtnClick()"
+  >
+    Ajouter Assignment
+  </button>
   <h2>Liste des devoirs :</h2>
   <mat-list>
     <mat-divider></mat-divider>
     @for (a of assignments; track a.nom) {
-      <mat-list-item (click)="assignmentClique(a)">
-        <h3 matListItemTitle>{{a.dateDeRendu |date:'MM/dd/YYYY'}}</h3>
-        @if(a.rendu) {
-          <p matListItemLine appRendu>
-            Le devoir {{ a.nom }}, a été rendu le : {{ a.rendu }}
-          </p>
-        } @else {
-        <p matListItemLine appNonRendu>
-          Le devoir {{ a.nom }} n'a pas été rendu à temps.
-        </p>
+    <mat-list-item (click)="assignmentClique(a)">
+      <h3 matListItemTitle>{{ a.dateDeRendu | date : "MM/dd/YYYY" }}</h3>
+      @if(a.rendu) {
+      <p matListItemLine appRendu>
+        Le devoir {{ a.nom }}, a été rendu le : {{ a.rendu }}
+      </p>
+      } @else {
+      <p matListItemLine appNonRendu>
+        Le devoir {{ a.nom }} n'a pas été rendu à temps.
+      </p>
       }
-      </mat-list-item>
-      <mat-divider></mat-divider>
+    </mat-list-item>
+    <mat-divider></mat-divider>
     }
   </mat-list>
 
-  <app-assignment-detail [assignmentTransmis]="assignmentSelectionne"></app-assignment-detail>
+  <app-assignment-detail
+    [assignmentTransmis]="assignmentSelectionne"
+  ></app-assignment-detail>
+</main>
 }
 
 <!--
