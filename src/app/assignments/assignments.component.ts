@@ -10,6 +10,7 @@ import { AssignmentDetailComponent } from "./assignment-detail/assignment-detail
 import { MatDividerModule } from '@angular/material/divider';
 
 import { AddAssignmentComponent } from './add-assignment/add-assignment.component';
+import { AssignmentsService } from '../shared/assignments.service';
 
 @Component({
     selector: 'app-assignments',
@@ -27,31 +28,19 @@ export class AssignmentsComponent implements OnInit {
 
   // Pour le click sur un assignment
   assignmentSelectionne!:Assignment;
+  // tableau des assignments qu'on va remplir via le service
+  assignments:Assignment[] = [];
 
-  assignments:Assignment[] = [
-    {
-      nom:"Devoir Angular de Mr Buffa",
-      dateDeRendu: new Date("2024-02-17"),
-      rendu: false
-    },
-    {
-      nom:"Devoir J2EE de Mr Grin",
-      dateDeRendu: new Date("2024-12-15"),
-      rendu: true
-    },
-    {
-      nom:"Devoir J2EE de Mr Winter, gestion de projet",
-      dateDeRendu: new Date("2024-11-10"),
-      rendu: true
-    }
-  ];
+  constructor(private assignmentService:AssignmentsService) {}
 
   ngOnInit(): void {
     console.log("COMPOSANT AFFICHE !");
-    // on active le bouton d'ajout au bout de 3 secondes
-    setTimeout(() => {
-      this.ajoutActive = true;
-    }, 3000)
+    // on va utiliser le service pour recuperer les assignments
+    // et les afficher dans la page
+    this.assignmentService.getAssignments()
+    .subscribe(assignments => {
+      this.assignments = assignments;
+    });
   }
 
   getColor(assignment:any) {
@@ -71,8 +60,13 @@ export class AssignmentsComponent implements OnInit {
   onAddAssignmentClique(event:Assignment) {
     console.log("Nouvel assignment reçu du fils!");
 
-    this.assignments.push(event);
-    this.formVisible = false;
+    //this.assignments.push(event);
+    this.assignmentService.addAssignment(event)
+    .subscribe(message => {
+      console.log(message);
+      this.formVisible = false;
+    });
+
   }
 
   onAssignmentSupprime(event:Assignment) {

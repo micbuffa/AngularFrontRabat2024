@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { Assignment } from '../assignment.model';
+import { AssignmentsService } from '../../shared/assignments.service';
 
 @Component({
   selector: 'app-add-assignment',
@@ -29,8 +30,9 @@ export class AddAssignmentComponent {
   nomDevoir = '';
   dateDeRendu!: string;
 
-  onSubmit(event:any) {
+  constructor(private assignmentService: AssignmentsService) {}
 
+  onSubmit(event:any) {
     console.log("Formulaire soumis ! NOM =  " + this.nomDevoir);
     console.log("Date : " + this.dateDeRendu);
 
@@ -45,5 +47,7 @@ export class AddAssignmentComponent {
     // On envoie le nouvel assignment sous la forme d'un
     // événement "nouvelAssignment" à notre component parent
     this.nouvelAssignmentAjoute.emit(nouvelAssignment);
+
+    //this.assignmentService.addAssignment(nouvelAssignment);
   }
 }
