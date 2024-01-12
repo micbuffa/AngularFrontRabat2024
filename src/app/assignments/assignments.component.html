@@ -13,11 +13,11 @@
         <h3 matListItemTitle>{{ a.dateDeRendu | date : "MM/dd/YYYY" }}</h3>
         @if(a.rendu) {
         <p matListItemLine appRendu>
-          {{ a.id }} - Le devoir {{ a.nom }}, a été rendu le : {{ a.rendu }}
+          {{ a._id }} - Le devoir {{ a.nom }}, a été rendu le : {{ a.rendu }}
         </p>
         } @else {
         <p matListItemLine appNonRendu>
-          {{ a.id }} - Le devoir {{ a.nom }} n'a pas été rendu à temps.
+          {{ a._id }} - Le devoir {{ a.nom }} n'a pas été rendu à temps.
         </p>
         }
       </mat-list-item>

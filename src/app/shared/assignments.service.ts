@@ -1,56 +1,38 @@
 import { Injectable } from '@angular/core';
 import { Assignment } from '../assignments/assignment.model';
 import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AssignmentsService {
-  assignments:Assignment[] = [
-    {
-      id:1,
-      nom:"Devoir Angular de Mr Buffa",
-      dateDeRendu: new Date("2024-02-17"),
-      rendu: false
-    },
-    {
-      id:2,
-      nom:"Devoir J2EE de Mr Grin",
-      dateDeRendu: new Date("2024-12-15"),
-      rendu: true
-    },
-    {
-      id:3,
-      nom:"Devoir J2EE de Mr Winter, gestion de projet",
-      dateDeRendu: new Date("2024-11-10"),
-      rendu: true
-    }
-  ];
-  constructor() { }
+  assignments:Assignment[] = [];
+  constructor(private http:HttpClient) { }
+
+  URI = "http://localhost:8010/api/assignments";
 
   getAssignments():Observable<Assignment[]> {
-    // on renvoie les assignements. Demain on utilisera
-    // une vraie base de données et un vrai web service !
-      return of(this.assignments);
+    // on renvoie les assignements.
+
+      //return of(this.assignments);
+      return this.http.get<Assignment[]>(this.URI);
   }
 
   // renvoie un assignment en fonction de son id
   getAssignment(id:number):Observable<Assignment|undefined> {
     // on cherche dans la liste des assignments
     // l'assignment ayant l'id passé en paramètre
-    const assignment = this.assignments.find((a) => {
-        return a.id === id;
-      });
-
-    return of(assignment);
+    return this.http.get<Assignment>(this.URI + "/" + id);
   }
-  
+
   addAssignment(assignment:Assignment):Observable<string> {
     // ici on fait l'ajout dans la base de données... demain on utilisera
     // une vraie base de données et un vrai web service !
-    this.assignments.push(assignment);
+    //this.assignments.push(assignment);
 
-    return of("Assignment ajouté !");
+    //return of("Assignment ajouté !");
+    return this.http.post<string>(this.URI, assignment);
   }
 
   updateAssignment(assignment:Assignment):Observable<string> {
@@ -59,14 +41,12 @@ export class AssignmentsService {
 
     // on ne fait rien et ça marche quand même ? Pourquoi ?
 
-    return of("Assignment modifié !");
+    //return of("Assignment modifié !");
+    return this.http.put<string>(this.URI, assignment);
   }
 
   deleteAssignment(assignment:Assignment):Observable<string> {
     // suppression dans le tableau
-    const index = this.assignments.indexOf(assignment, 0);
-    this.assignments.splice(index, 1);
-
-    return of("Assignment supprimé !");
+    return this.http.delete<string>(this.URI + "/" + assignment._id);
   }
 }

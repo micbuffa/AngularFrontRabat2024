@@ -10,7 +10,7 @@
     </mat-card-content>
     <mat-card-actions id="bottom">
       @if(!assignmentTransmis.rendu) {
-        <mat-checkbox (click)="onCheckboxCliqued">Rendu</mat-checkbox>
+        <mat-checkbox (click)="onCheckboxCliqued()">Rendu</mat-checkbox>
       }
       <button mat-raised-button color="warn" (click)="onDeleteAssignment()">
         <mat-icon>delete</mat-icon>
