@@ -5,6 +5,9 @@
     </a>
   </div>
   <h2>Liste des devoirs :</h2>
+  <button mat-raised-button color="primary" (click)="pagePrecedente()">Previous Page</button>
+
+  <button mat-raised-button color="primary" (click)="pageSuivante()">Next Page</button>
   <mat-list>
     <mat-divider></mat-divider>
     @for (a of assignments; track a.nom) {

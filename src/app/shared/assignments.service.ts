@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Assignment } from '../assignments/assignment.model';
-import { Observable, of } from 'rxjs';
+import { Observable, forkJoin, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-
+import { bdInitialAssignments } from './data';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,12 +19,20 @@ export class AssignmentsService {
       return this.http.get<Assignment[]>(this.URI);
   }
 
+  getAssignmentsPagine(page:number, limit:number):Observable<any> {
+    // on renvoie les assignements.
+
+      //return of(this.assignments);
+      return this.http.get<Assignment[]>(this.URI+"?page="+page+"&limit="+limit);
+  }
+
   // renvoie un assignment en fonction de son id
   getAssignment(id:number):Observable<Assignment|undefined> {
     // on cherche dans la liste des assignments
     // l'assignment ayant l'id passé en paramètre
     return this.http.get<Assignment>(this.URI + "/" + id);
   }
+
 
   addAssignment(assignment:Assignment):Observable<string> {
     // ici on fait l'ajout dans la base de données... demain on utilisera
@@ -49,4 +57,39 @@ export class AssignmentsService {
     // suppression dans le tableau
     return this.http.delete<string>(this.URI + "/" + assignment._id);
   }
+
+  peuplerBD() {
+    // Je parcours le tableau bdInitialAssignments et je fais un addAssignment pour chaque
+    // assignment
+
+    bdInitialAssignments.forEach(data => {
+      let a = new Assignment();
+      a.id = data.id;
+      a.nom = data.nom;
+      a.dateDeRendu = new Date(data.dateDeRendu);
+      a.rendu = data.rendu;
+
+      this.addAssignment(a).subscribe(message => {
+        console.log(message);
+      });
+    });
+  }
+
+  // Peupler BD qui renvoie un observable, cela permet
+  // de savoir quand les données ont toutes été ajoutées
+  peuplerBDavecForkJoin():Observable<any> {
+    let appelsVersAddAssignment:Observable<any>[] = [];
+
+    bdInitialAssignments.forEach(a => {
+      const nouvelAssignment = new Assignment();
+      nouvelAssignment.nom = a.nom;
+      nouvelAssignment.dateDeRendu = new Date(a.dateDeRendu);
+      nouvelAssignment.rendu = a.rendu;
+
+      appelsVersAddAssignment.push(this.addAssignment(nouvelAssignment))
+    });
+
+    return forkJoin(appelsVersAddAssignment);
+  }
+
 }

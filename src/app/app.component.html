@@ -3,4 +3,11 @@
     <a routerLink="/home">{{titre}}</a>
   </nav>
 </H1>
+
+<button mat-raised-button color="primary"
+        (click)="remplirLaBDAvecDonneesDeTest()"
+>
+  Peupler BD
+</button>
+
 <router-outlet></router-outlet>

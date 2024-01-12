@@ -25,19 +25,36 @@ import { RouterLink } from '@angular/router';
 export class AssignmentsComponent implements OnInit {
   // tableau des assignments qu'on va remplir via le service
   assignments:Assignment[] = [];
+  page:number = 1;
+  limit:number = 10;
+  totalDocs:number = 0;
+  totalPages:number = 0;
+  hasPrevPage:boolean = false;
+  hasNextPage:boolean = false;
+  nextPage:number = 0;
+  prevPage:number = 0;
 
   constructor(private assignmentService:AssignmentsService) {}
 
   ngOnInit(): void {
     console.log("COMPOSANT AFFICHE !");
-    // on va utiliser le service pour recuperer les assignments
-    // et les afficher dans la page
-    this.assignmentService.getAssignments()
-    .subscribe(assignments => {
-      this.assignments = assignments;
-    });
+    this.getAssignments();
   }
 
+  getAssignments() {
+    // on va utiliser le service pour recuperer les assignments
+    // et les afficher dans la page
+    this.assignmentService.getAssignmentsPagine(this.page, this.limit)
+    .subscribe(data => {
+      this.assignments = data.docs;
+      this.totalDocs = data.totalDocs;
+      this.totalPages = data.totalPages;
+      this.hasPrevPage = data.hasPrevPage;
+      this.hasNextPage = data.hasNextPage;
+      this.nextPage = data.nextPage;
+      this.prevPage = data.prevPage;
+    });
+  }
   getColor(assignment:any) {
     if(assignment.rendu) return "green"
     else return "red"
@@ -55,4 +72,16 @@ export class AssignmentsComponent implements OnInit {
 
     this.assignmentService.deleteAssignment(event);
   }
+
+  pageSuivante() {
+    this.page++;
+    this.getAssignments();
+  }
+
+  pagePrecedente() {
+    this.page--;
+    this.getAssignments();
+  }
+
+
 }
