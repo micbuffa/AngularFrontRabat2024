@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,6 +7,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from '../../shared/assignments.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-assignment',
@@ -23,31 +24,33 @@ import { AssignmentsService } from '../../shared/assignments.service';
   styleUrl: './add-assignment.component.css',
 })
 export class AddAssignmentComponent {
-  @Output()
-  nouvelAssignmentAjoute = new EventEmitter<Assignment>();
 
   // Pour le formulaire d'ajout d'assignment
   nomDevoir = '';
   dateDeRendu!: string;
 
-  constructor(private assignmentService: AssignmentsService) {}
+  constructor(private assignmentService: AssignmentsService,
+              private router:Router) {}
 
   onSubmit(event:any) {
     console.log("Formulaire soumis ! NOM =  " + this.nomDevoir);
     console.log("Date : " + this.dateDeRendu);
 
     let nouvelAssignment = new Assignment();
+    // generate a random int as id
+    nouvelAssignment.id = Math.floor(Math.random() * 1000000000);
     nouvelAssignment.nom = this.nomDevoir;
     nouvelAssignment.dateDeRendu = new Date(this.dateDeRendu);
     nouvelAssignment.rendu = false;
 
-    // et on le rajoute au tableau des assignments
-    //this.assignments.push(nouvelAssignment);
-
-    // On envoie le nouvel assignment sous la forme d'un
-    // événement "nouvelAssignment" à notre component parent
-    this.nouvelAssignmentAjoute.emit(nouvelAssignment);
-
-    //this.assignmentService.addAssignment(nouvelAssignment);
+    // on utilise le service pour ajouter le nouvel assignment
+    this.assignmentService.addAssignment(nouvelAssignment)
+      .subscribe(message => {
+        console.log(message);
+        // je navigue de nouveau vers la page d'accueil pour
+        // afficher la liste des assignments avec celui que
+        // je viens d'ajouter
+        this.router.navigate(['/home']);
+      });
   }
 }

@@ -11,7 +11,7 @@ import { MatDividerModule } from '@angular/material/divider';
 
 import { AddAssignmentComponent } from './add-assignment/add-assignment.component';
 import { AssignmentsService } from '../shared/assignments.service';
-
+import { RouterLink } from '@angular/router';
 @Component({
     selector: 'app-assignments',
     standalone: true,
@@ -19,15 +19,10 @@ import { AssignmentsService } from '../shared/assignments.service';
     styleUrl: './assignments.component.css',
     imports: [CommonModule, RenduDirective, NonRenduDirective,
              AssignmentDetailComponent, MatListModule, MatDividerModule,
-             AddAssignmentComponent, MatButtonModule]
+             AddAssignmentComponent, MatButtonModule,
+            RouterLink]
 })
 export class AssignmentsComponent implements OnInit {
-  ajoutActive = false;
-  // Pour afficher ou pas le formulaire
-  formVisible = false;
-
-  // Pour le click sur un assignment
-  assignmentSelectionne!:Assignment;
   // tableau des assignments qu'on va remplir via le service
   assignments:Assignment[] = [];
 
@@ -46,27 +41,6 @@ export class AssignmentsComponent implements OnInit {
   getColor(assignment:any) {
     if(assignment.rendu) return "green"
     else return "red"
-  }
-
-  assignmentClique(a:Assignment) {
-    console.log("Assignment cliqué : " + a.nom);
-    this.assignmentSelectionne = a;
-  }
-
-  onAddAssignmentBtnClick() {
-    this.formVisible = true;
-  }
-
-  onAddAssignmentClique(event:Assignment) {
-    console.log("Nouvel assignment reçu du fils!");
-
-    //this.assignments.push(event);
-    this.assignmentService.addAssignment(event)
-    .subscribe(message => {
-      console.log(message);
-      this.formVisible = false;
-    });
-
   }
 
   onAssignmentSupprime(event:Assignment) {

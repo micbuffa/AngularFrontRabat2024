@@ -8,16 +8,19 @@ import { Observable, of } from 'rxjs';
 export class AssignmentsService {
   assignments:Assignment[] = [
     {
+      id:1,
       nom:"Devoir Angular de Mr Buffa",
       dateDeRendu: new Date("2024-02-17"),
       rendu: false
     },
     {
+      id:2,
       nom:"Devoir J2EE de Mr Grin",
       dateDeRendu: new Date("2024-12-15"),
       rendu: true
     },
     {
+      id:3,
       nom:"Devoir J2EE de Mr Winter, gestion de projet",
       dateDeRendu: new Date("2024-11-10"),
       rendu: true
@@ -31,6 +34,17 @@ export class AssignmentsService {
       return of(this.assignments);
   }
 
+  // renvoie un assignment en fonction de son id
+  getAssignment(id:number):Observable<Assignment|undefined> {
+    // on cherche dans la liste des assignments
+    // l'assignment ayant l'id passé en paramètre
+    const assignment = this.assignments.find((a) => {
+        return a.id === id;
+      });
+
+    return of(assignment);
+  }
+  
   addAssignment(assignment:Assignment):Observable<string> {
     // ici on fait l'ajout dans la base de données... demain on utilisera
     // une vraie base de données et un vrai web service !
@@ -52,7 +66,7 @@ export class AssignmentsService {
     // suppression dans le tableau
     const index = this.assignments.indexOf(assignment, 0);
     this.assignments.splice(index, 1);
-    
+
     return of("Assignment supprimé !");
   }
 }
